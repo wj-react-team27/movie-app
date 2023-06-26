@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import CardData from "../components/CardData";
 import { Link, useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const MainContainer = styled.div`
   display: grid;
@@ -30,7 +31,7 @@ const MainPage = () => {
     getMovies();
   }, []);
   const navigate = useNavigate();
-  if (loading) return <div>로딩중...</div>;
+  if (loading) return <Loading />;
 
   return (
     <MainContainer>
