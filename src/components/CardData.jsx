@@ -1,15 +1,20 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const CardContainer = styled.div`
   width: 100%;
   height: 600px;
   color: #000;
   padding: 10px;
-  border: 2px solid red;
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
 `;
 const MovieImg = styled.img`
   max-height: 500px;
