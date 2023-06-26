@@ -2,11 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import CardData from "../components/CardData";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const MainContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 340px);
 `;
 
 const MainPage = () => {
@@ -20,7 +21,6 @@ const MainPage = () => {
           "https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=year"
         );
         setMovieDatas(res.data.data.movies);
-        console.log(res.data.data.movies);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -29,7 +29,7 @@ const MainPage = () => {
 
     getMovies();
   }, []);
-
+  const navigate = useNavigate();
   if (loading) return <div>로딩중...</div>;
 
   return (
@@ -41,9 +41,9 @@ const MainPage = () => {
           title={data.title}
           desc={data.summary}
           img={data.medium_cover_image}
-          genres={data.genres}
+          hanadleClcik={() => navigate(`/detail/${data.id}`)}
         >
-          <Link to={data.id} />
+          <Link to={`/detail/${data.id}`} />
         </CardData>
       ))}
     </MainContainer>

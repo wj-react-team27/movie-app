@@ -28,9 +28,9 @@ const MovieDesc = styled.p`
   overflow: hidden;
 `;
 
-const CardData = ({ key, id, title, desc, img, genres }) => {
+const CardData = ({ id, title, desc, img, hanadleClcik }) => {
   return (
-    <CardContainer key={key} id={id} genres={genres}>
+    <CardContainer id={id} onClick={hanadleClcik}>
       <MovieImg src={img} />
       <MovieTitle>{title}</MovieTitle>
       <MovieDesc>{desc}</MovieDesc>
