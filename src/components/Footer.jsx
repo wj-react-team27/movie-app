@@ -2,8 +2,9 @@ import styled from 'styled-components';
 
 const FooterContainer = styled.footer`
   width: 100vw;
-  height: 200px;
+  height: auto;
   padding: 30px;
+  background: rgba(0, 0, 0, 0.1);
 
   & > a {
     color: #000;
