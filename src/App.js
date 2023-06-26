@@ -1,5 +1,13 @@
+import AppRouter from './AppRouter';
+import GlobalStyle from './styles/GlobalStyle';
+
 function App() {
-  return <div className="App">Hello world!</div>;
+  return (
+    <>
+      <GlobalStyle />
+      <AppRouter />
+    </>
+  );
 }
 
 export default App;
