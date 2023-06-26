@@ -1,8 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import Loading from "../components/Loading";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import Loading from '../components/Loading';
 
 const Wrapper = styled.div`
   margin: 50px;
@@ -18,12 +18,21 @@ const Title = styled.div`
 `;
 
 const DesContainer = styled.div`
-  display: flex;
+  @media (min-width: 780.1px) {
+    display: flex;
+  }
+  @media (max-width: 780px) {
+    display: block;
+  }
+
   margin-top: 40px;
 `;
 
 const Description = styled.div`
-  margin-left: 50px;
+  @media (min-width: 780.1px) {
+    margin-left: 50px;
+  }
+
   div {
     margin-bottom: 15px;
   }
