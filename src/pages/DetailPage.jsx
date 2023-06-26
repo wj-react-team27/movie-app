@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import Loading from '../components/Loading';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import Loading from "../components/Loading";
 
 const Wrapper = styled.div`
   margin: 50px;
@@ -45,10 +45,20 @@ const Poster = styled.img`
   width: 200px;
   height: 350px;
 `;
+
+const Btn = styled.button`
+  padding: 2px;
+  border: none;
+  background-color: white;
+  color: grey;
+  font-size: 13px;
+`;
 const DetailPage = () => {
   const { id } = useParams();
   const [movieData, setMovieData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showMore, setShowMore] = useState(false);
+
   useEffect(() => {
     axios(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`).then(
       (res) => {
@@ -74,7 +84,17 @@ const DetailPage = () => {
           <div>좋아요 수 : {movieData.like_count}개</div>
           <div>언어 : {movieData.language}</div>
           <div>런타임 : {movieData.runtime}분</div>
-          <div>줄거리 : {movieData.description_intro}</div>
+          <div>
+            줄거리 :{" "}
+            {showMore
+              ? movieData.description_intro
+              : `${movieData.description_intro.substring(0, 500)}`}
+            {movieData.description_intro.length > 501 && (
+              <Btn onClick={() => setShowMore(!showMore)}>
+                {showMore ? "줄이기 ▲	" : "더보기 ▼ "}
+              </Btn>
+            )}
+          </div>
         </Description>
       </DesContainer>
     </Wrapper>
