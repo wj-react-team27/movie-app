@@ -1,8 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Loading from "../components/Loading";
+import useFetchMovies from "../hooks/useFetchMovies";
 
 const Wrapper = styled.div`
   margin: 50px;
@@ -55,19 +55,14 @@ const Btn = styled.button`
 `;
 const DetailPage = () => {
   const { id } = useParams();
-  const [movieData, setMovieData] = useState({});
-  const [loading, setLoading] = useState(true);
   const [showMore, setShowMore] = useState(false);
 
-  useEffect(() => {
-    axios(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`).then(
-      (res) => {
-        setLoading(false);
-        setMovieData(res.data.data.movie);
-      }
-    );
-  }, [id]);
+  const { movieData, loading, error } = useFetchMovies(
+    `https://yts.mx/api/v2/movie_details.json?movie_id=${id}`
+  );
+
   if (loading) return <Loading />;
+  if (error) console.log(error);
   return (
     <Wrapper>
       <Title>

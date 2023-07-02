@@ -1,10 +1,10 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import CardData from '../components/CardData';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import Loading from '../components/Loading';
-import Pagenation from '../components/Pagenation';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import CardData from "../components/CardData";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
+import Pagenation from "../components/Pagenation";
 
 const MainContainer = styled.div`
   display: grid;
@@ -17,8 +17,8 @@ const MainPage = () => {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const limit = queryParams.get('limit');
-  const page = queryParams.get('page');
+  const limit = queryParams.get("limit");
+  const page = queryParams.get("page");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,7 +64,8 @@ const MainPage = () => {
             title={data.title}
             desc={data.summary}
             img={data.medium_cover_image}
-            hanadleClcik={() => navigate(`/detail/${data.id}`)}>
+            hanadleClcik={() => navigate(`/detail/${data.id}`)}
+          >
             <Link to={`/detail/${data.id}`} />
           </CardData>
         ))}
