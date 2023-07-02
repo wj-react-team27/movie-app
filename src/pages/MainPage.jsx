@@ -14,7 +14,6 @@ const MainContainer = styled.div`
 
 const MainPage = () => {
   const [movieDatas, setMovieDatas] = useState({});
-  const [listLength, setListLength] = useState(0);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -23,16 +22,27 @@ const MainPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (limit === null && page === null) {
+      navigate('/?page=1&limit=20');
+    }
+    if (limit !== null && page < 1) {
+      navigate(`/?page=1&limit=${limit}`);
+    }
+
     const getMovies = async () => {
       try {
         setLoading(true);
+
         const res = await axios(
           `https://yts.mx/api/v2/list_movies.json?page=${
             page ? page : 1
           }&limit=${limit ? limit : 20}`
         );
-        setMovieDatas(res.data.data.movies);
-        setListLength(res.data.data.movie_count);
+        setMovieDatas({
+          movieList: res.data.data.movies,
+          listLength: res.data.data.movie_count,
+        });
+
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -40,14 +50,14 @@ const MainPage = () => {
     };
 
     getMovies();
-  }, [limit, page]);
+  }, [limit, page, navigate]);
 
   if (loading) return <Loading />;
 
   return (
     <>
       <MainContainer>
-        {movieDatas.map((data) => (
+        {movieDatas.movieList.map((data) => (
           <CardData
             key={data.id}
             id={data.id}
@@ -59,7 +69,11 @@ const MainPage = () => {
           </CardData>
         ))}
       </MainContainer>
-      <Pagenation listLength={listLength} limit={limit} page={page} />
+      <Pagenation
+        listLength={movieDatas.listLength}
+        limit={limit}
+        page={page}
+      />
     </>
   );
 };
