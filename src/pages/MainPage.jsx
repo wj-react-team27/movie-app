@@ -6,10 +6,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import Pagenation from "../components/Pagenation";
 
-const MainContainer = styled.div`
+export const MainContainer = styled.div`
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(auto-fill, 340px);
+  margin-top: 30px;
+  min-height: 50vh;
 `;
 
 const MainPage = () => {
@@ -23,7 +25,7 @@ const MainPage = () => {
 
   useEffect(() => {
     if (limit === null && page === null) {
-      navigate('/?page=1&limit=20');
+      navigate("/?page=1&limit=20");
     }
     if (limit !== null && page < 1) {
       navigate(`/?page=1&limit=${limit}`);
@@ -63,9 +65,7 @@ const MainPage = () => {
             id={data.id}
             title={data.title}
             desc={data.summary}
-            img={data.medium_cover_image}
-            hanadleClcik={() => navigate(`/detail/${data.id}`)}
-          >
+            img={data.medium_cover_image}>
             <Link to={`/detail/${data.id}`} />
           </CardData>
         ))}

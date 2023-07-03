@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Loading from "../components/Loading";
 import useFetchMovies from "../hooks/useFetchMovies";
+import { ShortCut } from "../components/CardData";
+import { useDispatch, useSelector } from "react-redux";
+import { addMovie, delelteMovie } from "../redux/favoritMoviesSlice";
 
 const Wrapper = styled.div`
   margin: 50px;
@@ -53,16 +56,33 @@ const Btn = styled.button`
   color: grey;
   font-size: 13px;
 `;
-const DetailPage = () => {
-  const { id } = useParams();
-  const [showMore, setShowMore] = useState(false);
 
+const ShortCutDetail = styled(ShortCut)`
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 27px;
+`;
+
+const DetailPage = () => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const { favoritMovies } = useSelector((state) => state.favoritMovieSlice);
+  const [showMore, setShowMore] = useState(false);
   const { movieData, loading, error } = useFetchMovies(
     `https://yts.mx/api/v2/movie_details.json?movie_id=${id}`
   );
+  const isActive = () => {
+    return favoritMovies?.reduce((acc, cur) => {
+      if (acc || +cur.id === +id) return true;
+      else return acc;
+    }, false);
+  };
 
   if (loading) return <Loading />;
   if (error) console.log(error);
+
   return (
     <Wrapper>
       <Title>
@@ -73,7 +93,22 @@ const DetailPage = () => {
 
       <DesContainer>
         <Poster src={movieData.medium_cover_image} alt={movieData.title} />
-
+        <ShortCutDetail
+          isActive={isActive()}
+          onClick={() => {
+            if (isActive()) dispatch(delelteMovie({ id: +id }));
+            else
+              dispatch(
+                addMovie({
+                  id,
+                  title: movieData.title,
+                  desc: movieData.description_intro,
+                  img: movieData.medium_cover_image,
+                })
+              );
+          }}>
+          ⭐️
+        </ShortCutDetail>
         <Description>
           <div>평점 : {movieData.rating}점</div>
           <div>좋아요 수 : {movieData.like_count}개</div>
